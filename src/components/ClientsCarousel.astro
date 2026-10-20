@@ -1,0 +1,47 @@
+---
+import { CLIENT_LOGOS } from '../data/site.js';
+const slugs: Record<string, string> = {
+  "McDonald's": 'logo-mcdonalds', Nike: 'logo-nike', Google: 'logo-google',
+  'Ulta Beauty': 'logo-ulta-beauty', JBL: 'logo-jbl', NYU: 'logo-nyu',
+  CVS: 'logo-cvs', TD: 'logo-td', 'Coca-Cola': 'logo-coca-cola',
+  'T-Mobile': 'logo-t-mobile', Facebook: 'logo-facebook'
+};
+---
+<section class="clients" aria-label="Our clients">
+  <div class="wrap">
+    <h2 class="banner-title clients-title">Our Clients</h2>
+    <div class="carousel" data-carousel>
+      <button class="carousel-btn prev" type="button" data-car-prev aria-label="Previous clients">‹</button>
+      <div class="carousel-track">
+        {CLIENT_LOGOS.map((c) => (
+          <div class="client-logo">
+            <img
+              src={`/images/reviews/${slugs[c.name]}.avif`}
+              alt={c.alt}
+              width="220"
+              height="140"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+      <button class="carousel-btn next" type="button" data-car-next aria-label="Next clients">›</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients { background: var(--gray); padding: 3.2rem 0; position: relative; }
+  .clients::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--peach); opacity: 0.28; pointer-events: none;
+  }
+  .clients .wrap { position: relative; text-align: center; }
+  .clients-title { margin-bottom: 1.8rem; }
+  .client-logo {
+    flex: 0 0 220px; background: #b8cdc4; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; box-shadow: var(--shadow-soft); min-height: 130px;
+  }
+  .client-logo img { max-height: 96px; width: auto; max-width: 100%; object-fit: contain; }
+</style>

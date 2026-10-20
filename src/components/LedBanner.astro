@@ -1,0 +1,49 @@
+---
+import { LED_BANNER } from '../data/site.js';
+---
+<section class="led-banner" aria-label="LED balloons">
+  <img
+    class="led-bg"
+    src="/images/hero/led-balloons-banner.avif"
+    alt="Event hall decorated with LED-lit balloons"
+    width="1600"
+    height="700"
+    loading="lazy"
+  />
+  <div class="led-inner wrap">
+    <h2 class="display led-title">{LED_BANNER.heading}</h2>
+    <p class="led-text">{LED_BANNER.text}</p>
+    <p><a class="btn-pill led-cta" href="https://balloonslane.com/order-inquiry/">Order Inquiry</a></p>
+  </div>
+</section>
+
+<style>
+  .led-banner { position: relative; overflow: hidden; }
+  .led-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .led-banner::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.25), rgba(10,10,10,0.55));
+  }
+  .led-inner {
+    position: relative; z-index: 1;
+    text-align: center; color: #fff;
+    padding: 7rem 1rem;
+  }
+  .led-title {
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    color: #fff; margin: 0;
+    text-shadow: 0 6px 30px rgba(0,0,0,0.5);
+  }
+  .led-text {
+    font-family: var(--font-accent); font-weight: 600;
+    font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+    max-width: 860px; margin: 1.2rem auto 0;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  }
+  .led-cta { background: #cccccc; color: var(--ink); margin-top: 1.6rem; font-size: 1.15rem; }
+  .led-cta:hover { background: #bbbbbb; }
+  @media (max-width: 767px) { .led-inner { padding: 4.5rem 1rem; } }
+</style>

@@ -1,0 +1,48 @@
+---
+import { REVIEWS } from '../data/site.js';
+// Live site: reviewer photo + name + text, no star rating in markup.
+const photos = ['review-denard-hines', 'review-nicole-link', 'review-odile-t'];
+---
+<section class="reviews" aria-label="Client reviews">
+  <div class="wrap">
+    <h2 class="banner-title">Client Review</h2>
+    <div class="carousel" data-carousel>
+      <button class="carousel-btn prev" type="button" data-car-prev aria-label="Previous reviews">‹</button>
+      <div class="carousel-track">
+        {REVIEWS.map((r, i) => (
+          <article class="review-card">
+            <img
+              class="review-photo"
+              src={`/images/reviews/${photos[i]}.avif`}
+              alt={'Photo of ' + r.name}
+              width="120"
+              height="120"
+              loading="lazy"
+            />
+            {r.title && <p class="review-title">{r.title}</p>}
+            <p class="review-text">{r.text}</p>
+            <p class="review-name">– {r.name}</p>
+          </article>
+        ))}
+      </div>
+      <button class="carousel-btn next" type="button" data-car-next aria-label="Next reviews">›</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews { text-align: center; padding: 3rem 0; background: var(--cream); }
+  .review-card {
+    flex: 0 0 min(420px, 88vw);
+    background: #fff; border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card); padding: 2rem 1.8rem;
+    text-align: center;
+  }
+  .review-photo {
+    width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
+    margin: 0 auto 0.9rem; box-shadow: var(--shadow-soft);
+  }
+  .review-title { font-family: var(--font-accent); font-weight: 800; margin: 0 0 0.4rem; }
+  .review-text { color: var(--ink-soft); margin: 0 0 1rem; text-align: left; }
+  .review-name { font-family: var(--font-accent); font-weight: 800; margin: 0; }
+</style>

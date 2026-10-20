@@ -1,0 +1,1 @@
+{"dependencies":{"astro":"^5.13.0"},"name":"balloons-lane-astro","private":true,"scripts":{"astro":"astro","build":"astro build","dev":"astro dev","preview":"astro preview"},"type":"module","version":"1.0.0"}

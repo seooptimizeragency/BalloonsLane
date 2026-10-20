@@ -1,0 +1,105 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT, FOOTER_LEARN_MORE, SOCIAL_LINKS, MAP_EMBED } from '../data/site.js';
+---
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="foot-map">
+      <iframe
+        title="Balloons Lane Balloon DELIVERY map"
+        src={MAP_EMBED}
+        width="600"
+        height="380"
+        style="border:0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <nav class="foot-col" aria-label="Learn more">
+      <h4>Learn More</h4>
+      <ul>
+        {FOOTER_LEARN_MORE.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="foot-col" aria-label="Store hours">
+      <h4>Store Hours</h4>
+      <ul class="hours">
+        {CONTACT.hours.map((hh) => (
+          <li><span>{hh.days}</span><span>{hh.time}</span></li>
+        ))}
+      </ul>
+    </div>
+    <div class="foot-col foot-contact" aria-label="Contact">
+      <p class="contact-line">
+        <a href={CONTACT.phoneHref}><Icon name="phone" size={16} /> {CONTACT.phoneDisplay}</a>
+      </p>
+      <p class="contact-line">
+        <a href={CONTACT.emailHref}>{CONTACT.email}</a>
+      </p>
+      <p class="contact-line">
+        <a href={CONTACT.websiteHref}>{CONTACT.website}</a>
+      </p>
+      <div class="foot-social">
+        {SOCIAL_LINKS.slice(0, 5).map((s) => (
+          <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+            <Icon name={s.label === 'Twitter' ? 'x' : s.label.toLowerCase()} size={18} />
+          </a>
+        ))}
+      </div>
+      <p class="contact-line addr">109 Hastings St, Staten Island, NY 10305</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p class="signoff">Made with <span aria-hidden="true">♥</span> by Balloons Lane</p>
+    <p class="copy">© 2026 Balloons Lane. All rights reserved.</p>
+  </div>
+  <div class="foot-garland" aria-hidden="true"></div>
+</footer>
+
+<style>
+  .site-footer { background: var(--peach); padding: 3.5rem 0 0; margin-top: 0; }
+  .footer-grid {
+    display: grid; gap: 2.2rem;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    align-items: start;
+  }
+  .foot-map iframe { width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-soft); }
+  .foot-col h4 {
+    font-family: var(--font-accent); font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; font-size: 1.05rem; margin: 0 0 1rem;
+  }
+  .foot-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .foot-col a { text-decoration: none; font-weight: 600; }
+  .foot-col a:hover { color: var(--orange-deep); }
+  .hours li { display: flex; flex-direction: column; font-weight: 600; }
+  .contact-line { margin: 0 0 0.6rem; font-weight: 600; }
+  .contact-line a { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .foot-social { display: flex; gap: 0.4rem; margin-top: 0.8rem; }
+  .foot-social a {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .foot-bottom {
+    text-align: center; padding: 1.6rem 1rem 2.2rem;
+    border-top: 2px dashed rgba(0,0,0,0.12); margin-top: 2.6rem;
+  }
+  .signoff {
+    font-family: cursive; font-size: 1.5rem; margin: 0 0 0.3rem;
+  }
+  .signoff span { color: var(--red); }
+  .copy { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+  .foot-garland {
+    height: 90px;
+    background: url('/images/decorations/footer-balloons-bg.avif') center / cover no-repeat;
+  }
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+import { HERO } from '../data/site.js';
+// Hero background: Untitled-design-11.png (giant BALLOONS LANE graphic baked in).
+// The H2 tagline and Order Inquiry button overlay it, per the live homepage.
+---
+<section class="hero" aria-label="Balloons Lane balloon delivery">
+  <img
+    class="hero-bg"
+    src="/images/hero/hero-bg.avif"
+    alt=""
+    width="1600"
+    height="900"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <video
+    class="hero-video"
+    src={HERO.videoSrc}
+    poster="/images/hero/hero-bg.avif"
+    autoplay
+    muted
+    loop
+    playsinline
+    aria-hidden="true"
+  ></video>
+  <div class="hero-inner wrap">
+    <h2 class="hero-tagline">{HERO.tagline}</h2>
+    <a class="btn-pill hero-cta" href={HERO.ctaHref}>{HERO.ctaLabel}</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--sage-light);
+    overflow: hidden;
+    margin-top: -90px;
+    padding-top: 150px;
+    padding-bottom: 4.5rem;
+    min-height: 70vh;
+    display: flex; align-items: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.0;
+  }
+  .hero-video[data-playing] { opacity: 0.35; }
+  .hero-inner { position: relative; text-align: center; width: 100%; }
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4.6vw, 3.4rem);
+    text-transform: uppercase; letter-spacing: 0.03em;
+    max-width: 1000px; margin: 0 auto 2rem;
+    color: var(--ink);
+    text-shadow: 0 3px 0 rgba(255, 255, 255, 0.6);
+  }
+  .hero-cta {
+    background: #cccccc; color: var(--ink);
+    font-size: 1.2rem; box-shadow: var(--shadow-card);
+  }
+  .hero-cta:hover { background: #bbbbbb; }
+  @media (max-width: 767px) {
+    .hero { padding-top: 130px; min-height: 60vh; }
+  }
+</style>
+
+<script>
+  // Reveal the video only if it actually plays (live site: video element often fails).
+  const v = document.querySelector('.hero-video');
+  if (v) {
+    v.addEventListener('playing', () => v.setAttribute('data-playing', 'true'));
+    const pr = v.play();
+    if (pr && pr.catch) pr.catch(() => v.remove());
+  }
+</script>

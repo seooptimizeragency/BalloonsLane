@@ -1,0 +1,121 @@
+---
+import { INQUIRY_OCCASIONS, CONTACT } from '../data/site.js';
+interface Props { id?: string }
+const { id = 'inquiry' } = Astro.props;
+const uid = (n: string) => `${id}-${n}`;
+---
+<section class="inquiry" aria-labelledby={`${id}-heading`}>
+  <div class="wrap">
+    <h2 class="banner-title" id={`${id}-heading`}>Order Inquiry</h2>
+    <form class="inquiry-card" data-inquiry novalidate={false}>
+      <div class="field">
+        <label for={uid('name')}>Name</label>
+        <input id={uid('name')} name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for={uid('email')}>Email</label>
+        <input id={uid('email')} name="email" type="email" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label for={uid('phone')}>Cell Phone Number</label>
+        <input id={uid('phone')} name="cell_phone" type="tel" autocomplete="tel" required />
+      </div>
+      <div class="field">
+        <label for={uid('date')}>Event Date</label>
+        <input id={uid('date')} name="event_date" type="date" required />
+      </div>
+      <div class="field">
+        <label for={uid('zip')}>Delivery Zip Code</label>
+        <input id={uid('zip')} name="delivery_zip" type="text" inputmode="numeric" autocomplete="postal-code" required />
+      </div>
+      <div class="field">
+        <label for={uid('occasion')}>Occasion / Event / theme if any</label>
+        <select id={uid('occasion')} name="occasion" required>
+          {INQUIRY_OCCASIONS.map((o) => (
+            <option value={o === 'Select an option' ? '' : o}>{o}</option>
+          ))}
+        </select>
+      </div>
+      <fieldset class="field checks">
+        <legend>Balloons are for?</legend>
+        <label class="check"><input type="checkbox" name="location" value="Inside" /> Inside</label>
+        <label class="check"><input type="checkbox" name="location" value="Outside" /> Outside</label>
+      </fieldset>
+      <div class="field wide">
+        <label for={uid('message')}>Message</label>
+        <textarea id={uid('message')} name="message" rows="4"></textarea>
+      </div>
+      <div class="field wide">
+        <label for={uid('file')}>Attach design you like</label>
+        <input id={uid('file')} name="design" type="file" accept="image/*" />
+      </div>
+      <div class="human-check" aria-label="Human verification placeholder">
+        <span class="cb" aria-hidden="true"></span>
+        <span>Verify you are human</span>
+      </div>
+      <button class="btn-pill btn-dark send" type="submit">Send</button>
+      <p class="alt-contact">
+        Prefer to talk? Call <a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a> or email
+        <a href={CONTACT.emailHref}>{CONTACT.email}</a>
+      </p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .inquiry {
+    text-align: center; padding: 3rem 0;
+    background: url('/images/decorations/order-inquiry-bg.avif') center / cover no-repeat;
+  }
+  .inquiry-card {
+    margin-top: 1.6rem;
+    background:
+      radial-gradient(circle at 12% 20%, var(--pink) 0 8px, transparent 9px),
+      radial-gradient(circle at 88% 12%, var(--peach-light) 0 10px, transparent 11px),
+      radial-gradient(circle at 78% 82%, var(--sage) 0 9px, transparent 10px),
+      radial-gradient(circle at 8% 78%, var(--peach) 0 11px, transparent 12px),
+      var(--cream);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: clamp(1.4rem, 4vw, 3rem);
+    display: grid; gap: 1.1rem;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+    border-top: 6px solid #2e8f9e;
+  }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field.wide { grid-column: 1 / -1; }
+  .field label, .checks legend {
+    font-family: var(--font-accent); font-weight: 700; font-size: 0.92rem;
+  }
+  .field input[type='text'], .field input[type='email'], .field input[type='tel'],
+  .field input[type='date'], .field select, .field textarea {
+    font-family: var(--font-body); font-size: 1rem;
+    padding: 0.75em 1em; border: 2px solid var(--gray-line);
+    border-radius: 14px; background: #fff; width: 100%;
+  }
+  .checks { border: 0; padding: 0; margin: 0; display: flex; gap: 1.4rem; align-items: center; }
+  .check { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+  .check input { width: 1.15rem; height: 1.15rem; accent-color: var(--orange-deep); }
+  .human-check {
+    grid-column: 1 / -1;
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    background: #fff; border: 2px solid var(--gray-line); border-radius: 12px;
+    padding: 0.8rem 1.1rem; font-weight: 600; color: var(--ink-soft);
+    justify-self: start;
+  }
+  .human-check .cb {
+    width: 1.5rem; height: 1.5rem; border: 2px solid #9aa0a6; border-radius: 4px;
+    background: #fff; flex: none;
+  }
+  .send { grid-column: 1 / -1; justify-self: stretch; font-size: 1.15rem; padding: 0.9em; }
+  .inquiry-note {
+    grid-column: 1 / -1; background: #fff; border-radius: 12px;
+    padding: 1rem 1.2rem; font-weight: 600; margin: 0;
+  }
+  .alt-contact { grid-column: 1 / -1; text-align: center; margin: 0; color: var(--ink-soft); }
+  .alt-contact a { color: var(--orange-deep); font-weight: 700; }
+  @media (max-width: 700px) {
+    .inquiry-card { grid-template-columns: 1fr; }
+  }
+</style>

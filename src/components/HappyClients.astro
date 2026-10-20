@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import { HAPPY_CLIENTS, VENUE_LINKS } from '../data/site.js';
+---
+<section class="happy" aria-label="Happy clients">
+  <div class="wrap">
+    <h2 class="display happy-title"><span class="wavy">Happy Clients, Happy Celebrations</span></h2>
+    <p class="happy-intro">What Our Customers Are Saying</p>
+    <p class="happy-lead">
+      At Balloons Lane, our balloons don’t just fill spaces; they fill hearts.
+      Here’s what clients across New York City and New Jersey have to say about
+      our professional balloon decoration and delivery services:
+    </p>
+    <ul class="happy-list">
+      {HAPPY_CLIENTS.map((r) => (
+        <li>
+          <span class="stars" aria-label="5 out of 5 stars">
+            {Array.from({ length: 5 }).map(() => <Icon name="star" size={16} />)}
+          </span>
+          <p>{r.text} <strong>– {r.name}</strong></p>
+        </li>
+      ))}
+    </ul>
+    <p class="venues-label">Trusted by Top Brands &amp; Iconic Venues</p>
+    <ul class="venues">
+      {VENUE_LINKS.map((v) => (
+        <li><a href={v.href} target="_blank" rel="noopener">{v.label}</a></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .happy { background: var(--sage-pale); padding: 3.5rem 0; }
+  .happy-title { text-align: center; font-size: clamp(1.8rem, 4.4vw, 3rem); }
+  .happy-intro { text-align: center; font-family: var(--font-accent); font-weight: 800; font-size: 1.2rem; margin: 0.4rem 0; }
+  .happy-lead { text-align: center; max-width: 900px; margin: 0 auto 1.8rem; color: var(--ink-soft); }
+  .happy-list { list-style: none; margin: 0 auto; padding: 0; max-width: 980px; display: grid; gap: 1.1rem; }
+  .happy-list li {
+    background: #fff; border-radius: var(--radius-md);
+    padding: 1.3rem 1.5rem; box-shadow: var(--shadow-soft);
+  }
+  .stars { color: var(--star); display: inline-flex; gap: 2px; margin-bottom: 0.4rem; }
+  .happy-list p { margin: 0; }
+  .venues-label { text-align: center; font-family: var(--font-display); font-size: 1.35rem; text-transform: uppercase; margin: 2.6rem 0 1rem; }
+  .venues {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;
+  }
+  .venues a {
+    background: var(--white); border-radius: 999px; padding: 0.55em 1.4em;
+    font-family: var(--font-accent); font-weight: 700; text-decoration: none;
+    box-shadow: var(--shadow-soft);
+  }
+  .venues a:hover { background: var(--peach); }
+</style>

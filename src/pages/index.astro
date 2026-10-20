@@ -1,0 +1,69 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import LedBanner from '../components/LedBanner.astro';
+import IntroHeading from '../components/IntroHeading.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import CategoryGrid from '../components/CategoryGrid.astro';
+import VideoSection from '../components/VideoSection.astro';
+import FamousPlaces from '../components/FamousPlaces.astro';
+import SeoBlock from '../components/SeoBlock.astro';
+import HappyClients from '../components/HappyClients.astro';
+import Faq from '../components/Faq.astro';
+import ClientsCarousel from '../components/ClientsCarousel.astro';
+import ReviewsCarousel from '../components/ReviewsCarousel.astro';
+import Footer from '../components/Footer.astro';
+import {
+  CATALOG_EVERYDAY, OCCASIONS, HOLIDAYS, COLOR_STORE
+} from '../data/site.js';
+
+const slugify = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+const withImg = (items: { name: string; href: string }[], folder: string, overrides: Record<string, string> = {}) =>
+  items.map((c) => {
+    const slug = overrides[c.name] || slugify(c.name);
+    return { ...c, image: `/images/${folder}/${slug}.avif` };
+  });
+
+// Filename overrides where the slug differs from the card name
+const catalogOverrides: Record<string, string> = {
+  'Big Round Balloon': 'big-round-balloon',
+  'Centerpiece Bouquet': 'centerpiece-bouquet',
+  'Half Arch Balloons': 'half-arch-balloons',
+  'Organic Balloon': 'organic-balloon',
+  'Shapes And Arranagment': 'shapes-and-arranagment',
+  'Balloon Arch': 'balloon-arch'
+};
+const occasionOverrides: Record<string, string> = { '1st Birthday': '1st-birthday' };
+const holidayOverrides: Record<string, string> = { 'Motheer Day Balloon': 'mother-day-balloon' };
+const colorOverrides: Record<string, string> = { 'Store Page': 'store-page' };
+
+const catalog = withImg(CATALOG_EVERYDAY, 'catalog', catalogOverrides);
+const occasions = withImg(OCCASIONS, 'occasions', occasionOverrides);
+const holidays = withImg(HOLIDAYS, 'holidays', holidayOverrides);
+const colors = withImg(COLOR_STORE, 'decorations', colorOverrides);
+---
+<MainLayout>
+  <Header />
+  <main>
+    <Hero />
+    <LedBanner />
+    <IntroHeading />
+    <InquiryForm id="inquiry-1" />
+    <CategoryGrid id="catalog" eyebrow="Catalog" title="EveryDay" cards={catalog} comingSoon={true} />
+    <CategoryGrid id="events" eyebrow="Occassion / Event" cards={occasions} />
+    <CategoryGrid id="holidays" eyebrow="Holiday +" cards={holidays} />
+    <CategoryGrid id="color" eyebrow="Color + / Store" cards={colors} />
+    <InquiryForm id="inquiry-2" />
+    <VideoSection />
+    <FamousPlaces />
+    <SeoBlock />
+    <HappyClients />
+    <Faq />
+    <ClientsCarousel />
+    <ReviewsCarousel />
+  </main>
+  <Footer />
+</MainLayout>
