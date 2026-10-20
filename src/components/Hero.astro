@@ -1,7 +1,10 @@
 ---
 import { HERO } from '../data/site.js';
-// Hero background: Untitled-design-11.png (giant BALLOONS LANE graphic baked in).
-// The H2 tagline and Order Inquiry button overlay it, per the live homepage.
+// Hero: sage balloon background (Untitled-design-11.png). The giant BALLOONS LANE
+// title is the hero video clipped by the original text mask
+// (hero-video-mask.png — its alpha channel holds the letter shapes), exactly as
+// the live homepage renders it. If the video cannot play, the poster frame
+// still fills the letters.
 ---
 <section class="hero" aria-label="Balloons Lane balloon delivery">
   <img
@@ -13,17 +16,19 @@ import { HERO } from '../data/site.js';
     loading="eager"
     fetchpriority="high"
   />
-  <video
-    class="hero-video"
-    src={HERO.videoSrc}
-    poster="/images/hero/hero-bg.avif"
-    autoplay
-    muted
-    loop
-    playsinline
-    aria-hidden="true"
-  ></video>
   <div class="hero-inner wrap">
+    <div class="hero-title" role="img" aria-label={HERO.title}>
+      <video
+        class="hero-title-video"
+        src={HERO.videoSrc}
+        poster="/images/hero/hero-balloons-poster.avif"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-hidden="true"
+      ></video>
+    </div>
     <h2 class="hero-tagline">{HERO.tagline}</h2>
     <a class="btn-pill hero-cta" href={HERO.ctaHref}>{HERO.ctaLabel}</a>
   </div>
@@ -44,37 +49,45 @@ import { HERO } from '../data/site.js';
     position: absolute; inset: 0;
     width: 100%; height: 100%; object-fit: cover;
   }
-  .hero-video {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%; object-fit: cover;
-    opacity: 0.0;
-  }
-  .hero-video[data-playing] { opacity: 0.35; }
   .hero-inner { position: relative; text-align: center; width: 100%; }
+  .hero-title {
+    position: relative;
+    width: min(1500px, 96%);
+    aspect-ratio: 1804 / 352;
+    margin: 0 auto;
+    background: url('/images/hero/hero-balloons-poster.avif') center / cover no-repeat;
+    -webkit-mask-image: url('/images/hero/hero-video-mask.png');
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-image: url('/images/hero/hero-video-mask.png');
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+  }
+  .hero-title-video {
+    position: absolute; inset: 0;
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
   .hero-tagline {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 4.6vw, 3.4rem);
-    text-transform: uppercase; letter-spacing: 0.03em;
-    max-width: 1000px; margin: 0 auto 2rem;
-    color: var(--ink);
-    text-shadow: 0 3px 0 rgba(255, 255, 255, 0.6);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 2.1vw, 1.7rem);
+    letter-spacing: 0.01em;
+    max-width: 1150px;
+    margin: 2.4rem auto 0;
+    color: var(--ink-soft);
   }
   .hero-cta {
     background: #cccccc; color: var(--ink);
     font-size: 1.2rem; box-shadow: var(--shadow-card);
+    margin-top: 2.6rem;
   }
   .hero-cta:hover { background: #bbbbbb; }
   @media (max-width: 767px) {
     .hero { padding-top: 130px; min-height: 60vh; }
+    .hero-title { width: 100%; }
+    .hero-tagline { margin-top: 1.6rem; }
+    .hero-cta { margin-top: 1.8rem; }
   }
 </style>
-
-<script>
-  // Reveal the video only if it actually plays (live site: video element often fails).
-  const v = document.querySelector('.hero-video');
-  if (v) {
-    v.addEventListener('playing', () => v.setAttribute('data-playing', 'true'));
-    const pr = v.play();
-    if (pr && pr.catch) pr.catch(() => v.remove());
-  }
-</script>
